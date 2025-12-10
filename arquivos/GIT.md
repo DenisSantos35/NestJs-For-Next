@@ -14,5 +14,5 @@ git push origin main -u
 # Depois é o de sempre
 git add .
 git commit -m "sua mensagem"
-git commit
+git push
 ```
