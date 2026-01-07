@@ -1,8 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-
+import { ValidationPipe } from '@nestjs/common';
+//No nest usamos pipes que faz a validação dos dados
+//vamos validar todos os dados da aplicação usando DTOS
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
   await app.listen(process.env.PORT ?? 3000);
 }
 void bootstrap();
