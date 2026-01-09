@@ -4,11 +4,18 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { PostModule } from './post/post.module';
-import { UserController } from './user/user.controller';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [AuthModule, UserModule, PostModule],
-  controllers: [AppController, UserController],
+  imports: [
+    AuthModule,
+    UserModule,
+    PostModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+  ],
+  controllers: [AppController],
   providers: [AppService],
   exports: [],
 })
