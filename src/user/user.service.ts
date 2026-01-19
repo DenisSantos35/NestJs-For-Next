@@ -1,9 +1,15 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { HashingService } from 'src/common/hashing/hashing.service';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -15,17 +21,29 @@ export class UserService {
     private readonly hashingService: HashingService,
   ) {}
 
-  async create(dto: CreateUserDto) {
-    // Email precisa ser único
-    const exists = await this.userRepository.exists({
-      where: {
-        email: dto.email,
-      },
+  async failifEmailExists(email: string) {
+    const exists = await this.userRepository.existsBy({
+      email,
     });
 
     if (exists) {
       throw new ConflictException('E-mail já existe');
     }
+  }
+
+  async findOneByOrFail(userData: Partial<User>) {
+    const user = await this.userRepository.findOneByOrFail(userData);
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado!');
+    }
+
+    return user;
+  }
+
+  async create(dto: CreateUserDto) {
+    // Email precisa ser único
+    await this.failifEmailExists(dto.email);
     // Precisa fazer hash de senha
     const hashedPassword = await this.hashingService.hash(dto.password);
     const newUser: CreateUserDto = {
@@ -44,6 +62,27 @@ export class UserService {
 
   findById(id: string) {
     return this.userRepository.findOneBy({ id });
+  }
+
+  async update(id: string, dto: UpdateUserDto) {
+    //checagem se os dados de nome e email não estao vazios
+    if (!dto.name && !dto.email) {
+      throw new BadRequestException('Dados não enviados');
+    }
+    //checagem es tem o usuário na base de dados
+    const user = await this.findOneByOrFail({ id });
+
+    // alteração de user name
+    user.name = dto.name ?? user.name;
+
+    //checagem se o email a ser alterado já existe na base de dados
+    if (dto.email && dto.email !== user.email) {
+      await this.failifEmailExists(dto.email);
+      user.email = dto.email;
+      user.forceLogout = true;
+    }
+    //salva alterações do usuário na base de dados, e retorna os dados salvos
+    return this.save(user);
   }
 
   save(user: User) {
