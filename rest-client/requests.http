@@ -23,7 +23,7 @@ POST {{baseUrl}}/user
 Content-Type: application/json
 
 {
-  "name": "Denis Diogo dos Santos",
+  "name": "Denis",
   "email": "denis@email.com",
   "password": "123456"
 }
@@ -36,6 +36,6 @@ Content-Type: application/json
 Authorization: Bearer {{jwtToken}}
 
 {
-  "name": "Denis Diogo dos Santos",
-  "email": "denis@gmail.com" 
+  "name": "Denis Diogo",
+  "email": "denis@email.com" 
 }
