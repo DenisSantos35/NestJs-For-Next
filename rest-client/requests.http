@@ -41,7 +41,7 @@ Authorization: Bearer {{jwtToken}}
 }
 
 ### Update user password
-# @name updatePAssword
+# @name updatePassword
 
 PATCH {{baseUrl}}/user/me/password
 Content-Type: application/json
