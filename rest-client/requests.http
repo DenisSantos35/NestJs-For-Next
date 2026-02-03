@@ -91,7 +91,7 @@ Authorization: Bearer {{jwtToken}}
   "coverImageUrl": "http://localhost"
 }
 
-### Read all post public
+### Read all post public /de qualquer pessoa
 # @name readAllPostPublic
 GET {{baseUrl}}/post/
 
@@ -100,11 +100,11 @@ GET {{baseUrl}}/post/
 GET {{baseUrl}}/post/{{postSlug}}
 
 ### Read all post owned
-# @name readAllPosOwned
+# @name readAllPostOwned
 GET {{baseUrl}}/post/me
 Authorization: Bearer {{jwtToken}}
 
-### Read one post owned
+### Read one post owned 
 # @name readOnePostOwned
 GET {{baseUrl}}/post/me/{{postUuid}}
 Authorization: Bearer {{jwtToken}}
