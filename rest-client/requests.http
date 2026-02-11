@@ -140,7 +140,7 @@ Authorization: Bearer {{jwtToken}}
 Content-Disposition: form-data; name="file"; filename="exemplo.png"
 Content-Type: image/png
 
-< ../dev/images/sample-image.jpeg
+< ../dev/images/image.webp
 ------BryenFormBoundary--
 
 ### Read Image
