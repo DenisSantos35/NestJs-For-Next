@@ -6,7 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UploadModule } from './upload/upload.module';
 import { APP_FILTER } from '@nestjs/core';
-import { AllExceprionFilter } from './common/filters/all-exceptions.filter';
+import { AllExceptionsFilter } from './common/filters/all-exceptions.filter';
 
 @Module({
   imports: [
@@ -46,7 +46,7 @@ import { AllExceprionFilter } from './common/filters/all-exceptions.filter';
   providers: [
     {
       provide: APP_FILTER,
-      useClass: AllExceprionFilter,
+      useClass: AllExceptionsFilter,
     },
   ],
   exports: [],

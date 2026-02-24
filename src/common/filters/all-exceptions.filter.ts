@@ -8,7 +8,7 @@ import {
 import { Response } from 'express';
 
 @Catch()
-export class AllExceprionFilter implements ExceptionFilter {
+export class AllExceptionsFilter implements ExceptionFilter {
   catch(exception: unknown, host: ArgumentsHost) {
     const response = host.switchToHttp().getResponse<Response>();
 
@@ -46,7 +46,7 @@ export class AllExceprionFilter implements ExceptionFilter {
       }
     }
 
-    return response.status(400).json({
+    return response.status(status).json({
       message: messages,
       error: errorName,
       statusCode: status,
